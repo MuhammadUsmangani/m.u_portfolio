@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Play, Square, Volume2, VolumeX } from 'lucide-react';
 
 export const MusicPlayer: React.FC = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+
+    useEffect(() => {
+        if (audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.play().catch(e => console.log('Audio playback failed', e));
+            } else {
+                audioRef.current.pause();
+            }
+        }
+    }, [isPlaying]);
+
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.muted = isMuted;
+        }
+    }, [isMuted]);
 
     return (
         <div className="flex items-center gap-3 border border-[var(--neon-green)] bg-black/60 p-2 text-xs md:text-sm">
+            <audio ref={audioRef} src="/Na_Lua.mp3" loop />
             <div className="flex flex-col items-center justify-center w-8 h-8 cursor-pointer hover:bg-[var(--neon-green)] hover:text-black transition-colors" onClick={() => setIsPlaying(!isPlaying)}>
                 {isPlaying ? <Square size={16} /> : <Play size={16} className="ml-0.5" />}
             </div>
