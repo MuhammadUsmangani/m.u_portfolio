@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --neon-green: #39ff14;
+  --bg-color: #050505;
+  --crt-scanline: rgba(255, 255, 255, 0.05);
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--neon-green);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100vw);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
